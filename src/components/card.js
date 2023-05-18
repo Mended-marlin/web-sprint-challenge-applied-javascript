@@ -60,7 +60,7 @@ const cardAppender = (selector) => {
       if (typeof arr[0]=== "string"){
         arr[1].forEach(article => {
           let newCard = Card(article)
-          document.querySelector(".cards-container").appendChild(newCard)
+          document.querySelector(selector).appendChild(newCard)
         })
       }
     })
