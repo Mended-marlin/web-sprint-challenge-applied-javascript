@@ -17,9 +17,28 @@ const Card = (article) => {
   //   </div>
   // </div>
   //
+
+ let card = document.createElement("div")
+ card.classList += "card"
+ card.innerHTML =  `
+ <div class="headline">${ article.headline }</div>
+ <div class="author">
+   <div class="img-container">
+     <img src=${ article.authorPhoto }>
+   </div>
+   <span>By ${ article.authorName }</span>
+ </div>`
+
+card.addEventListener("click", () => {
+  console.log(article.headline)
+})
+
+return card
+
 }
 
 const cardAppender = (selector) => {
+  
   // TASK 6
   // ---------------------
   // Implement this function that takes a css selector as its only argument.
@@ -28,6 +47,27 @@ const cardAppender = (selector) => {
   // Create a card from each and every article object in the response, using the Card component.
   // Append each card to the element in the DOM that matches the selector passed to the function.
   //
+
+  async function getArticles() {
+    const data = await fetch("http://localhost:5001/api/articles").then(res => res.json())
+
+    let articlesArr = Object.values(data)
+    console.log(articlesArr)
+    let arts = articlesArr[0]
+
+    let finalArr = Object.entries(arts)
+    finalArr.forEach(arr => {
+      if (typeof arr[0]=== "string"){
+        arr[1].forEach(article => {
+          let newCard = Card(article)
+          document.querySelector(".cards-container").appendChild(newCard)
+        })
+      }
+    })
+
+
+  }
+  getArticles()
 }
 
 export { Card, cardAppender }

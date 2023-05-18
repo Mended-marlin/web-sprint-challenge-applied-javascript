@@ -13,6 +13,16 @@ const Tabs = (topics) => {
   //   <div class="tab">technology</div>
   // </div>
   //
+  const topicsTabs  = document.createElement("div")
+  topicsTabs.classList += "topics"
+  topics.forEach(topic => {
+    let creation = document.createElement("div")
+    creation.classList += "tab"
+    creation.textContent = topic
+    topicsTabs.append(creation)
+  });
+
+  return topicsTabs
 }
 
 const tabsAppender = (selector) => {
@@ -23,6 +33,20 @@ const tabsAppender = (selector) => {
   // Find the array of topics inside the response, and create the tabs using the Tabs component.
   // Append the tabs to the element in the DOM that matches the selector passed to the function.
   //
+  async function getData() {
+    const appendage = document.querySelector(selector)
+    const response = await fetch("http://localhost:5001/api/topics").then(data => data.json())
+
+
+    let filledTabs = Tabs(response.topics)
+
+    appendage.append(filledTabs)
+
+  }
+
+  getData()
+
+  
 }
 
 export { Tabs, tabsAppender }
